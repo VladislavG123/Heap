@@ -8,6 +8,36 @@ public class MinIntegerHeap : IHeap<int>
     private int[] _data = Array.Empty<int>();
 
     /// <summary>
+    /// Adds item to the heap
+    /// </summary>
+    /// <param name="item"></param>
+    public void Add(int item)
+    {
+        var index = _data.Length;
+        _data = _data.Append(item).ToArray();
+
+        Insert(index);
+    }
+
+    public int[] GetArray()
+    {
+        return _data;
+    }
+
+    /// <summary>
+    /// Removes the smallest value
+    /// </summary>
+    public void RemoveRoot()
+    {
+        // Swap the first with the last node
+        (_data[0], _data[^1]) = (_data[^1], _data[0]);
+
+        _data = _data.Take(_data.Length - 1).ToArray();
+
+        Heapify(0);
+    }
+
+    /// <summary>
     /// Inserts the value on the index to the correct position
     /// </summary>
     /// <param name="index">Node's index</param>
@@ -45,35 +75,5 @@ public class MinIntegerHeap : IHeap<int>
             (_data[index], _data[rightChildIndex]) = (_data[rightChildIndex], _data[index]);
             Heapify(rightChildIndex);
         }
-    }
-
-    /// <summary>
-    /// Adds item to the heap
-    /// </summary>
-    /// <param name="item"></param>
-    public void Add(int item)
-    {
-        var index = _data.Length;
-        _data = _data.Append(item).ToArray();
-
-        Insert(index);
-    }
-
-    public int[] GetArray()
-    {
-        return _data;
-    }
-    
-    /// <summary>
-    /// Removes the smallest value
-    /// </summary>
-    public void RemoveRoot()
-    {
-        // Swap the first with the last node
-        (_data[0], _data[^1]) = (_data[^1], _data[0]);
-
-        _data = _data.Take(_data.Length - 1).ToArray();
-
-        Heapify(0);
     }
 }
